@@ -47,27 +47,42 @@ export class CabangController {
     const cabangId: number = parseInt(req.params.id);
     const params: CabangInterface = req.body;
 
-    const dataUpdate: UpdateOptions = {
-      where: { id: cabangId },
-      limit: 1,
-    };
-    Cabang.update(params, dataUpdate)
-      .then(() =>
-        res.status(202).json({
-          status: true,
-          message: "Data successfully updated.",
-          data: {
-            id_cabang: cabangId,
-          },
-        })
-      )
-      .catch((err: Error) => res.status(500).json(err));
+    Cabang.findByPk<Cabang>(cabangId)
+      .then((cabang: Cabang | null) => {
+        if (cabang) {
+          const dataUpdate: UpdateOptions = {
+            where: { id: cabangId },
+            limit: 1,
+          };
+          Cabang.update(params, dataUpdate)
+            .then(() =>
+              res.status(202).json({
+                status: true,
+                message: "Data successfully updated.",
+                data: {
+                  id_cabang: cabangId,
+                },
+              })
+            )
+            .catch((err: Error) =>
+              res.status(500).json({
+                status: false,
+                message: "Something went wrong",
+                error: err,
+              })
+            );
+        } else {
+          res.status(404).json({ status: false, message: "Cabang not found." });
+        }
+      })
+      .catch((err: Error) => {
+        res.status(500).json(err);
+      });
   }
 
   public delete(req: Request, res: Response) {
     const cabangId: number = parseInt(req.params.id);
 
-    // Search cabang by ID
     Cabang.findByPk<Cabang>(cabangId)
       .then((cabang: Cabang | null) => {
         if (cabang) {
