@@ -66,13 +66,35 @@ export class CabangController {
 
   public delete(req: Request, res: Response) {
     const cabangId: number = parseInt(req.params.id);
-    const options: DestroyOptions = {
-      where: { id: cabangId },
-      limit: 1,
-    };
 
-    Cabang.destroy(options)
-      .then(() => res.status(204).json({ data: "Data successfully deleted." }))
-      .catch((err: Error) => res.status(500).json(err));
+    // Search cabang by ID
+    Cabang.findByPk<Cabang>(cabangId)
+      .then((cabang: Cabang | null) => {
+        if (cabang) {
+          const options: DestroyOptions = {
+            where: { id: cabangId },
+            limit: 1,
+          };
+          Cabang.destroy(options)
+            .then(() =>
+              res.status(202).json({
+                status: true,
+                data: "Data successfully deleted.",
+              })
+            )
+            .catch((err: Error) =>
+              res.status(500).json({
+                status: false,
+                message: "Something went wrong",
+                error: err,
+              })
+            );
+        } else {
+          res.status(404).json({ status: false, message: "Cabang not found." });
+        }
+      })
+      .catch((err: Error) => {
+        res.status(500).json(err);
+      });
   }
 }
