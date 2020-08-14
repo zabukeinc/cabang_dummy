@@ -89,4 +89,4 @@ Cabang.init(
   }
 );
 
-Cabang.sync().then(() => console.log("Tabel successfully added."));
+Cabang.sync().then(() => console.log("Table successfully added."));
