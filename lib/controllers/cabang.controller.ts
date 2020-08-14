@@ -5,14 +5,25 @@ import { UpdateOptions, DestroyOptions } from "sequelize/types";
 export class CabangController {
   public index(req: Request, res: Response) {
     Cabang.findAll<Cabang>({})
-      .then((cabang: Array<Cabang>) => res.json(cabang))
+      .then((cabang: Array<Cabang>) =>
+        res.json({
+          status: true,
+          message: "get all data cabang",
+          data: cabang,
+        })
+      )
       .catch((err: Error) => res.status(500).json(err));
   }
 
   public create(req: Request, res: Response) {
     const params: CabangInterface = req.body;
     Cabang.create<Cabang>(params)
-      .then((cabang: Cabang) => res.status(201).json(cabang))
+      .then((cabang: Cabang) =>
+        res.status(201).json({
+          status: true,
+          message: "data successfully created.",
+        })
+      )
       .catch((err: Error) => res.status(500).json(err));
   }
 
@@ -24,7 +35,7 @@ export class CabangController {
         if (cabang) {
           res.json(cabang);
         } else {
-          res.status(404).json({ errors: ["Cabang not found!"] });
+          res.status(404).json({ status: false, message: "Cabang not found." });
         }
       })
       .catch((err: Error) => {
@@ -41,7 +52,15 @@ export class CabangController {
       limit: 1,
     };
     Cabang.update(params, dataUpdate)
-      .then(() => res.status(202).json({ data: "Data successfully updated." }))
+      .then(() =>
+        res.status(202).json({
+          status: true,
+          message: "Data successfully updated.",
+          data: {
+            id_cabang: cabangId,
+          },
+        })
+      )
       .catch((err: Error) => res.status(500).json(err));
   }
 
