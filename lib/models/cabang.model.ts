@@ -89,4 +89,4 @@ Cabang.init(
   }
 );
 
-Cabang.sync().then(() => console.log("Tabel cabang berhasil dibuat"));
+Cabang.sync().then(() => console.log("Tabel successfully added."));
