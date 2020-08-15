@@ -25,7 +25,7 @@ export interface CabangInterface {
   province: string;
   postal_code: number;
   country: string;
-  type: any;
+  type: any; //this should be enum.
   is_active: number;
   phone: string;
   web_address: string;

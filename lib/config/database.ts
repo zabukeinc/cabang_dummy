@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
 
 const dbHost: string = "localhost";
-const dbName: string = "eigen";
+const dbName: string = "db_eigen";
 const dbUsername: string = "root";
 const dbPassword: string = "";
 
