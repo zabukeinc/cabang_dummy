@@ -10,7 +10,7 @@
   <li>npm run dev</li>
 </ul>
 
-<b>b. Endpoint </b>
+<b>b. Endpoint </b> <br>
 Get all data cabang (GET)
 <i>http://localhost:3000/cabang</i>
 
