@@ -12,13 +12,21 @@ import {
 export class BranchController {
   public index(req: Request, res: Response) {
     Branch.findAll<Branch>({})
-      .then((branch: Array<Branch>) =>
-        res.json({
-          status: true,
-          message: "Get all data branch.",
-          data: branch,
-        })
-      )
+      .then((branch: Array<Branch>) => {
+        if (branch.length > 0) {
+          res.json({
+            status: true,
+            message: "Get all data branch.",
+            data: branch,
+          });
+        } else {
+          res.json({
+            status: false,
+            message: "Branch is empty",
+            data: branch,
+          });
+        }
+      })
       .catch((err: Error) => res.status(500).json(err));
   }
 
@@ -28,7 +36,7 @@ export class BranchController {
       .then((branch: Branch) =>
         res.status(201).json({
           status: true,
-          message: "data successfully created.",
+          message: "Data successfully created.",
         })
       )
       .catch((err: ValidationErrorItem) =>
