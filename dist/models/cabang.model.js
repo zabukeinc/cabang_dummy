@@ -57,5 +57,5 @@ Cabang.init({
     tableName: "cabang",
     sequelize: database_1.db,
 });
-Cabang.sync().then(() => console.log("Tabel cabang berhasil dibuat"));
+Cabang.sync().then(() => console.log("Table successfully added."));
 //# sourceMappingURL=cabang.model.js.map
