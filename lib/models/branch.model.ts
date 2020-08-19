@@ -43,6 +43,10 @@ Branch.init(
     branch_name: {
       type: DataTypes.STRING(40),
       allowNull: false,
+      unique: true,
+      validate: {
+        isAlphanumeric: true,
+      },
     },
     address: {
       type: DataTypes.TEXT,
@@ -71,6 +75,18 @@ Branch.init(
     phone: {
       type: DataTypes.STRING(20),
       allowNull: true,
+    },
+    email: {
+      type: DataTypes.STRING(30),
+      validate: {
+        isEmail: true,
+      },
+    },
+    web_address: {
+      type: DataTypes.STRING(40),
+      validate: {
+        isUrl: true,
+      },
     },
     deletedAt: {
       type: DataTypes.DATE,
