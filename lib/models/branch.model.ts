@@ -12,9 +12,9 @@ export class Branch extends Model {
   public is_active: number;
   public phone: string;
   public web_address: string;
-  public readonly created_at!: Date;
-  public readonly updated_at!: Date;
-  public readonly deleted_at!: Date;
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+  public readonly deletedAt!: Date;
 }
 
 export interface BranchInterface {
@@ -46,35 +46,35 @@ Branch.init(
     },
     address: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: true,
     },
     city: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      allowNull: true,
     },
     province: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      allowNull: true,
     },
     postal_code: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     country: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      allowNull: true,
     },
     is_active: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
+      allowNull: true,
     },
     phone: {
       type: DataTypes.STRING(20),
-      allowNull: false,
+      allowNull: true,
     },
     deletedAt: {
       type: DataTypes.DATE,
-      allowNull: false,
+      allowNull: true,
     },
   },
   {
