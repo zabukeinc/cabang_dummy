@@ -1,7 +1,7 @@
 import { Sequelize, Model, DataTypes, BuildOptions } from "sequelize";
 import { db } from "../config/database";
 
-export class Cabang extends Model {
+export class Branch extends Model {
   public id!: number;
   public branch_name: string;
   public address: string;
@@ -17,7 +17,7 @@ export class Cabang extends Model {
   public readonly deleted_at!: Date;
 }
 
-export interface CabangInterface {
+export interface BranchInterface {
   branch_name: string;
   address: string;
   city: string;
@@ -33,7 +33,7 @@ export interface CabangInterface {
 }
 
 // Initialize table
-Cabang.init(
+Branch.init(
   {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
@@ -78,9 +78,9 @@ Cabang.init(
     },
   },
   {
-    tableName: "cabang", // table name
+    tableName: "branch", // table name
     sequelize: db, // this bit is important
   }
 );
 
-Cabang.sync().then(() => console.log("Table successfully added."));
+Branch.sync().then(() => console.log("Table successfully added."));

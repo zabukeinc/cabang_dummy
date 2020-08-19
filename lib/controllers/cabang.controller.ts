@@ -1,24 +1,24 @@
 import { Request, Response } from "express";
-import { Cabang, CabangInterface } from "../models/cabang.model";
+import { Branch, BranchInterface } from "../models/branch.model";
 import { UpdateOptions, DestroyOptions } from "sequelize/types";
 
 export class CabangController {
   public index(req: Request, res: Response) {
-    Cabang.findAll<Cabang>({})
-      .then((cabang: Array<Cabang>) =>
+    Branch.findAll<Branch>({})
+      .then((branch: Array<Branch>) =>
         res.json({
           status: true,
           message: "get all data cabang",
-          data: cabang,
+          data: branch,
         })
       )
       .catch((err: Error) => res.status(500).json(err));
   }
 
   public create(req: Request, res: Response) {
-    const params: CabangInterface = req.body;
-    Cabang.create<Cabang>(params)
-      .then((cabang: Cabang) =>
+    const params: BranchInterface = req.body;
+    Branch.create<Branch>(params)
+      .then((branch: Branch) =>
         res.status(201).json({
           status: true,
           message: "data successfully created.",
@@ -28,14 +28,14 @@ export class CabangController {
   }
 
   public show(req: Request, res: Response) {
-    const cabangId: number = parseInt(req.params.id);
+    const branchId: number = parseInt(req.params.id);
 
-    Cabang.findByPk<Cabang>(cabangId)
-      .then((cabang: Cabang | null) => {
-        if (cabang) {
-          res.json(cabang);
+    Branch.findByPk<Branch>(branchId)
+      .then((branch: Branch | null) => {
+        if (branch) {
+          res.json(branch);
         } else {
-          res.status(404).json({ status: false, message: "Cabang not found." });
+          res.status(404).json({ status: false, message: "Branch not found." });
         }
       })
       .catch((err: Error) => {
@@ -44,23 +44,23 @@ export class CabangController {
   }
 
   public update(req: Request, res: Response) {
-    const cabangId: number = parseInt(req.params.id);
-    const params: CabangInterface = req.body;
+    const branchId: number = parseInt(req.params.id);
+    const params: BranchInterface = req.body;
 
-    Cabang.findByPk<Cabang>(cabangId)
-      .then((cabang: Cabang | null) => {
+    Branch.findByPk<Branch>(branchId)
+      .then((cabang: Branch | null) => {
         if (cabang) {
           const dataUpdate: UpdateOptions = {
-            where: { id: cabangId },
+            where: { id: branchId },
             limit: 1,
           };
-          Cabang.update(params, dataUpdate)
+          Branch.update(params, dataUpdate)
             .then(() =>
               res.status(202).json({
                 status: true,
                 message: "Data successfully updated.",
                 data: {
-                  id_cabang: cabangId,
+                  id_branch: branchId,
                 },
               })
             )
@@ -72,7 +72,7 @@ export class CabangController {
               })
             );
         } else {
-          res.status(404).json({ status: false, message: "Cabang not found." });
+          res.status(404).json({ status: false, message: "Branch not found." });
         }
       })
       .catch((err: Error) => {
@@ -81,16 +81,16 @@ export class CabangController {
   }
 
   public delete(req: Request, res: Response) {
-    const cabangId: number = parseInt(req.params.id);
+    const branchId: number = parseInt(req.params.id);
 
-    Cabang.findByPk<Cabang>(cabangId)
-      .then((cabang: Cabang | null) => {
-        if (cabang) {
+    Branch.findByPk<Branch>(branchId)
+      .then((branch: Branch | null) => {
+        if (branch) {
           const options: DestroyOptions = {
-            where: { id: cabangId },
+            where: { id: branchId },
             limit: 1,
           };
-          Cabang.destroy(options)
+          Branch.destroy(options)
             .then(() =>
               res.status(202).json({
                 status: true,
@@ -105,7 +105,7 @@ export class CabangController {
               })
             );
         } else {
-          res.status(404).json({ status: false, message: "Cabang not found." });
+          res.status(404).json({ status: false, message: "Branch not found." });
         }
       })
       .catch((err: Error) => {
