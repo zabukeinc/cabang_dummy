@@ -1,6 +1,13 @@
 import { Request, Response } from "express";
 import { Branch, BranchInterface } from "../models/branch.model";
-import { UpdateOptions, DestroyOptions } from "sequelize/types";
+import {
+  UpdateOptions,
+  DestroyOptions,
+  ValidationErrorItem,
+  ValidationError,
+} from "sequelize/types";
+
+// const { body, validationResult } = require("express-validator");
 
 export class BranchController {
   public index(req: Request, res: Response) {
@@ -8,7 +15,7 @@ export class BranchController {
       .then((branch: Array<Branch>) =>
         res.json({
           status: true,
-          message: "get all data cabang",
+          message: "Get all data branch.",
           data: branch,
         })
       )
@@ -24,7 +31,9 @@ export class BranchController {
           message: "data successfully created.",
         })
       )
-      .catch((err: Error) => res.status(500).json(err));
+      .catch((err: ValidationErrorItem) =>
+        res.status(500).json({ status: false, message: err.message })
+      );
   }
 
   public show(req: Request, res: Response) {
@@ -39,7 +48,7 @@ export class BranchController {
         }
       })
       .catch((err: Error) => {
-        res.status(500).json(err);
+        res.status(500).json({ status: false, message: err });
       });
   }
 
@@ -48,8 +57,8 @@ export class BranchController {
     const params: BranchInterface = req.body;
 
     Branch.findByPk<Branch>(branchId)
-      .then((cabang: Branch | null) => {
-        if (cabang) {
+      .then((branch: Branch | null) => {
+        if (branch) {
           const dataUpdate: UpdateOptions = {
             where: { id: branchId },
             limit: 1,
@@ -76,40 +85,45 @@ export class BranchController {
         }
       })
       .catch((err: Error) => {
-        res.status(500).json(err);
+        res.status(500).json({ status: false, message: err });
       });
   }
 
   public delete(req: Request, res: Response) {
     const branchId: number = parseInt(req.params.id);
-
-    Branch.findByPk<Branch>(branchId)
-      .then((branch: Branch | null) => {
-        if (branch) {
-          const options: DestroyOptions = {
-            where: { id: branchId },
-            limit: 1,
-          };
-          Branch.destroy(options)
-            .then(() =>
-              res.status(202).json({
-                status: true,
-                data: "Data successfully deleted.",
-              })
-            )
-            .catch((err: Error) =>
-              res.status(500).json({
-                status: false,
-                message: "Something went wrong",
-                error: err,
-              })
-            );
-        } else {
-          res.status(404).json({ status: false, message: "Branch not found." });
-        }
-      })
-      .catch((err: Error) => {
-        res.status(500).json(err);
-      });
+    if (branchId) {
+      Branch.findByPk<Branch>(branchId)
+        .then((branch: Branch | null) => {
+          if (branch) {
+            const options: DestroyOptions = {
+              where: { id: branchId },
+              limit: 1,
+            };
+            Branch.destroy(options)
+              .then(() =>
+                res.status(202).json({
+                  status: true,
+                  data: "Data successfully deleted.",
+                })
+              )
+              .catch((err: Error) =>
+                res.status(500).json({
+                  status: false,
+                  message: "Something went wrong",
+                  error: err,
+                })
+              );
+          } else {
+            res
+              .status(404)
+              .json({ status: false, message: "Branch not found." });
+          }
+        })
+        .catch((err: Error) => {
+          res.status(500).json({ status: false, message: err.message });
+        });
+    } else {
+      throw new Error("Parameters Branch ID can not be null.");
+    }
   }
 }

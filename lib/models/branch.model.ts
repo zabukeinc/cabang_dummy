@@ -1,5 +1,7 @@
 import { Sequelize, Model, DataTypes, BuildOptions } from "sequelize";
 import { db } from "../config/database";
+import { ValidationErrorItem } from "sequelize";
+import { ValidationError } from "sequelize";
 
 export class Branch extends Model {
   public id!: number;
@@ -43,9 +45,22 @@ Branch.init(
     branch_name: {
       type: DataTypes.STRING(40),
       allowNull: false,
-      unique: true,
       validate: {
-        isAlphanumeric: true,
+        notEmpty: {
+          msg: "Field branch name cannot be empty.",
+        },
+        isAlphanumeric: {
+          msg: "Branch name contains blocked character.",
+        },
+        isUnique(value) {
+          return Branch.findOne({ where: { branch_name: value } }).then(
+            (branch_name) => {
+              if (branch_name) {
+                throw new Error("Branch name already exist");
+              }
+            }
+          );
+        },
       },
     },
     address: {
@@ -73,19 +88,25 @@ Branch.init(
       allowNull: true,
     },
     phone: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.STRING(20) || DataTypes.NUMBER,
       allowNull: true,
     },
     email: {
       type: DataTypes.STRING(30),
       validate: {
-        isEmail: true,
+        validateEmail(value: string) {
+          if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+            throw new Error("Email input must be an email!");
+          }
+        },
       },
     },
     web_address: {
       type: DataTypes.STRING(40),
       validate: {
-        isUrl: true,
+        isUrl: {
+          msg: "Insert web url correctly. (http://x.x)",
+        },
       },
     },
     deletedAt: {
