@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { Branch, BranchInterface } from "../models/branch.model";
 import { UpdateOptions, DestroyOptions } from "sequelize/types";
 
-export class CabangController {
+export class BranchController {
   public index(req: Request, res: Response) {
     Branch.findAll<Branch>({})
       .then((branch: Array<Branch>) =>

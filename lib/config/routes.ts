@@ -1,18 +1,18 @@
-import { CabangController } from "../controllers/cabang.controller";
+import { BranchController } from "../controllers/branch.controller";
 
 export class Routes {
-  public cabangController: CabangController = new CabangController();
+  public branchController: BranchController = new BranchController();
 
   public routes(app): void {
     app
-      .route("/cabang")
-      .get(this.cabangController.index)
-      .post(this.cabangController.create);
+      .route("/branch")
+      .get(this.branchController.index)
+      .post(this.branchController.create);
 
     app
-      .route("/cabang/:id")
-      .get(this.cabangController.show)
-      .put(this.cabangController.update)
-      .delete(this.cabangController.delete);
+      .route("/branch/:id")
+      .get(this.branchController.show)
+      .put(this.branchController.update)
+      .delete(this.branchController.delete);
   }
 }
