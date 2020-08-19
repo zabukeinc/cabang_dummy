@@ -9,7 +9,6 @@ export class Cabang extends Model {
   public province: string;
   public postal_code: number;
   public country: string;
-  public type: any; //this should be enum.
   public is_active: number;
   public phone: string;
   public web_address: string;
@@ -25,7 +24,6 @@ export interface CabangInterface {
   province: string;
   postal_code: number;
   country: string;
-  type: any; //this should be enum.
   is_active: number;
   phone: string;
   web_address: string;
@@ -64,10 +62,6 @@ Cabang.init(
     },
     country: {
       type: DataTypes.STRING(255),
-      allowNull: false,
-    },
-    type: {
-      type: DataTypes.ENUM("toko", "gudang"),
       allowNull: false,
     },
     is_active: {
