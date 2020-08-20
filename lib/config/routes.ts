@@ -5,13 +5,6 @@ export class Routes {
   public branchController: BranchController = new BranchController();
 
   public routes(app: Application): void {
-    app.all("*", (req: Request, res: Response) => {
-      res.status(404).send({
-        status: false,
-        message: "Endpoint not found",
-      });
-    });
-
     app
       .route("/branch")
       .get(this.branchController.index)
@@ -22,5 +15,12 @@ export class Routes {
       .get(this.branchController.show)
       .put(this.branchController.update)
       .delete(this.branchController.delete);
+
+    app.all("*", function (req: Request, res: Response) {
+      res.status(404).send({
+        status: false,
+        message: "Endpoint not found",
+      });
+    });
   }
 }
