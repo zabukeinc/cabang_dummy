@@ -47,54 +47,71 @@ export class BranchController {
   public show(req: Request, res: Response) {
     const branchId: number = parseInt(req.params.id);
 
-    Branch.findByPk<Branch>(branchId)
-      .then((branch: Branch | null) => {
-        if (branch) {
-          res.json(branch);
-        } else {
-          res.status(404).json({ status: false, message: "Branch not found." });
-        }
-      })
-      .catch((err: Error) => {
-        res.status(500).json({ status: false, message: err });
+    if (branchId) {
+      Branch.findByPk<Branch>(branchId)
+        .then((branch: Branch | null) => {
+          if (branch) {
+            res.json(branch);
+          } else {
+            res
+              .status(404)
+              .json({ status: false, message: "Branch not found." });
+          }
+        })
+        .catch((err: Error) => {
+          res.status(500).json({ status: false, message: err });
+        });
+    } else {
+      res.status(500).json({
+        status: false,
+        message: "Input must be a number (BranchID)",
       });
+    }
   }
 
   public update(req: Request, res: Response) {
     const branchId: number = parseInt(req.params.id);
     const params: BranchInterface = req.body;
 
-    Branch.findByPk<Branch>(branchId)
-      .then((branch: Branch | null) => {
-        if (branch) {
-          const dataUpdate: UpdateOptions = {
-            where: { id: branchId },
-            limit: 1,
-          };
-          Branch.update(params, dataUpdate)
-            .then(() =>
-              res.status(202).json({
-                status: true,
-                message: "Data successfully updated.",
-                data: {
-                  id_branch: branchId,
-                },
-              })
-            )
-            .catch((err: Error) =>
-              res.status(500).json({
-                status: false,
-                message: "Something went wrong",
-                error: err,
-              })
-            );
-        } else {
-          res.status(404).json({ status: false, message: "Branch not found." });
-        }
-      })
-      .catch((err: Error) => {
-        res.status(500).json({ status: false, message: err });
+    if (branchId) {
+      Branch.findByPk<Branch>(branchId)
+        .then((branch: Branch | null) => {
+          if (branch) {
+            const dataUpdate: UpdateOptions = {
+              where: { id: branchId },
+              limit: 1,
+            };
+            Branch.update(params, dataUpdate)
+              .then(() =>
+                res.status(202).json({
+                  status: true,
+                  message: "Data successfully updated.",
+                  data: {
+                    id_branch: branchId,
+                  },
+                })
+              )
+              .catch((err: ValidationErrorItem) =>
+                res.status(500).json({
+                  status: false,
+                  message: err.message,
+                })
+              );
+          } else {
+            res
+              .status(404)
+              .json({ status: false, message: "Branch not found." });
+          }
+        })
+        .catch((err: Error) => {
+          res.status(500).json({ status: false, message: err });
+        });
+    } else {
+      res.status(500).json({
+        status: false,
+        message: "Input must be a number (BranchID)",
       });
+    }
   }
 
   public delete(req: Request, res: Response) {
@@ -131,7 +148,10 @@ export class BranchController {
           res.status(500).json({ status: false, message: err.message });
         });
     } else {
-      throw new Error("Parameters Branch ID can not be null.");
+      res.status(500).json({
+        status: false,
+        message: "Input must be a number (BranchID)",
+      });
     }
   }
 }
