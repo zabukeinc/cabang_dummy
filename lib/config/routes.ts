@@ -1,9 +1,17 @@
 import { BranchController } from "../controllers/branch.controller";
+import { Application, Response, Request } from "express";
 
 export class Routes {
   public branchController: BranchController = new BranchController();
 
-  public routes(app): void {
+  public routes(app: Application): void {
+    app.all("*", (req: Request, res: Response) => {
+      res.status(404).send({
+        status: false,
+        message: "Endpoint not found",
+      });
+    });
+
     app
       .route("/branch")
       .get(this.branchController.index)
