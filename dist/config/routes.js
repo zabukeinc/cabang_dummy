@@ -1,21 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Routes = void 0;
-const cabang_controller_1 = require("../controllers/cabang.controller");
+const branch_controller_1 = require("../controllers/branch.controller");
 class Routes {
     constructor() {
-        this.cabangController = new cabang_controller_1.CabangController();
+        this.branchController = new branch_controller_1.BranchController();
     }
     routes(app) {
         app
-            .route("/cabang")
-            .get(this.cabangController.index)
-            .post(this.cabangController.create);
+            .route("/branch")
+            .get(this.branchController.index)
+            .post(this.branchController.create);
         app
-            .route("/cabang/:id")
-            .get(this.cabangController.show)
-            .put(this.cabangController.update)
-            .delete(this.cabangController.delete);
+            .route("/branch/:id")
+            .get(this.branchController.show)
+            .put(this.branchController.update)
+            .delete(this.branchController.delete);
     }
 }
 exports.Routes = Routes;
