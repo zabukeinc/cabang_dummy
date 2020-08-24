@@ -4,10 +4,7 @@ import {
   UpdateOptions,
   DestroyOptions,
   ValidationErrorItem,
-  ValidationError,
 } from "sequelize/types";
-
-// const { body, validationResult } = require("express-validator");
 
 export class BranchController {
   public index(req: Request, res: Response) {
