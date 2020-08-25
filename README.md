@@ -21,6 +21,7 @@ Get specific data cabang (GET) by name or by id
 Examples <br>
 <i>http://localhost:3000/api/branch/79</i>
 <i>http://localhost:3000/api/branch/branch_name</i>
+<br>
 Insert data cabang (POST)
 parameter: body
 <i>http://localhost:3000/api/branch/</i>
