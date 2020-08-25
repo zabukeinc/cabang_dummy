@@ -12,17 +12,17 @@
 
 <b>b. Endpoint </b> <br>
 Get all data cabang (GET)
-<i>http://localhost:3000/branch</i>
+<i>http://localhost:3000/api/branch</i>
 
 Get specific data cabang (GET)
-<i>http://localhost:3000/branch/:id</i>
+<i>http://localhost:3000/api/branch/:id</i>
 
 Insert data cabang (POST)
 parameter: body
-<i>http://localhost:3000/branch/</i>
+<i>http://localhost:3000/api/branch/</i>
 
 Update data cabang (PUT)
-<i>http://localhost:3000/branch/:id</i>
+<i>http://localhost:3000/api/branch/:id</i>
 
 Delete data cabang (DELETE)
-<i>http://localhost:3000/branch/:id</i>
+<i>http://localhost:3000/api/branch/:id</i>
