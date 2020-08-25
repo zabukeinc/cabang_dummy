@@ -43,12 +43,16 @@ export class BranchController {
 
   public show(req: Request, res: Response) {
     const branchId: number = parseInt(req.params.id);
-    const branchName: string = req.params.name;
+    const branchName: string = req.params.id;
     if (branchId) {
       Branch.findByPk<Branch>(branchId)
         .then((branch: Branch | null) => {
           if (branch) {
-            res.json(branch);
+            res.status(200).json({
+              status: true,
+              message: "Get branch by id",
+              data: branch,
+            });
           } else {
             res
               .status(404)
@@ -58,10 +62,28 @@ export class BranchController {
         .catch((err: Error) => {
           res.status(500).json({ status: false, message: err });
         });
+    } else if (branchName != "") {
+      Branch.findOne({ where: { branch_name: branchName } })
+        .then((branch: Branch | null) => {
+          if (branch) {
+            res.status(200).json({
+              status: true,
+              message: "Get branch by name",
+              data: branch,
+            });
+          } else {
+            res
+              .status(404)
+              .json({ status: false, message: "Branch not found" });
+          }
+        })
+        .catch((err: Error) => {
+          res.status(500).json({ status: false, message: err });
+        });
     } else {
       res.status(500).json({
         status: false,
-        message: "Input must be a number (BranchID)",
+        message: "Something went wrong",
       });
     }
   }
