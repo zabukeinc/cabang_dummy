@@ -1,7 +1,8 @@
 # cabang_dummy
 
 
-<b>a. Install apps</b>
+<b>a. Install apps</b> <br>
+You need to run MySQL first before you run this apps.
 <ul>
   <li>npm install</li>
   <li>npm run build</li>
