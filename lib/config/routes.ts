@@ -6,12 +6,12 @@ export class Routes {
 
   public routes(app: Application): void {
     app
-      .route("/branch")
+      .route("/api/branch")
       .get(this.branchController.index)
       .post(this.branchController.create);
 
     app
-      .route("/branch/:id")
+      .route("/api/branch/:id")
       .get(this.branchController.show)
       .put(this.branchController.update)
       .delete(this.branchController.delete);

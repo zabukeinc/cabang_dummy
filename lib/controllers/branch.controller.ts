@@ -43,7 +43,7 @@ export class BranchController {
 
   public show(req: Request, res: Response) {
     const branchId: number = parseInt(req.params.id);
-
+    const branchName: string = req.params.name;
     if (branchId) {
       Branch.findByPk<Branch>(branchId)
         .then((branch: Branch | null) => {
